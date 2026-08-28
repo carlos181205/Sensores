@@ -1,0 +1,18 @@
+# Backend
+P1_bitacora_sismica/Backend/node_modules/
+P1_bitacora_sismica/Backend/.env
+
+# Flutter / Dart
+P1_bitacora_sismica/Flutter/flutter_application_1/.dart_tool/
+P1_bitacora_sismica/Flutter/flutter_application_1/build/
+P1_bitacora_sismica/Flutter/flutter_application_1/.packages
+P1_bitacora_sismica/Flutter/flutter_application_1/.flutter-plugins
+P1_bitacora_sismica/Flutter/flutter_application_1/.flutter-plugins-dependencies
+P1_bitacora_sismica/Flutter/flutter_application_1/android/.gradle/
+
+# IDE and operating system
+.vscode/
+.idea/
+*.iml
+.DS_Store
+Thumbs.db
