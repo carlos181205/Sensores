@@ -1,0 +1,31 @@
+name: app_asistencia_biometrica
+description: "Aplicación móvil para marcación de asistencia con biometría, JWT y almacenamiento seguro"
+publish_to: 'none'
+
+version: 1.0.0+1
+
+environment:
+  sdk: ^3.13.1
+
+dependencies:
+  flutter:
+    sdk: flutter
+
+  connectivity_plus: ^6.1.0
+  cupertino_icons: ^1.0.8
+  dio: ^5.7.0
+  flutter_riverpod: ^2.6.1
+  flutter_secure_storage: ^9.2.2
+  geolocator: ^13.0.0
+  intl: ^0.19.0
+  local_auth: ^2.3.0
+  sqflite: ^2.4.1
+  uuid: ^4.5.1
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  flutter_lints: ^6.0.0
+
+flutter:
+  uses-material-design: true

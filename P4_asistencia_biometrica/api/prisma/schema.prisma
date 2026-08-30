@@ -1,0 +1,93 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+enum RolUsuario {
+  APRENDIZ
+  INSTRUCTOR
+}
+
+enum TipoAsistencia {
+  ENTRADA
+  SALIDA
+}
+
+enum EstadoAsistencia {
+  PENDIENTE
+  ACEPTADA
+  RECHAZADA
+}
+
+model Usuario {
+  id             Int            @id @default(autoincrement())
+  documento      String         @unique @db.VarChar(50)
+  nombre         String         @db.VarChar(150)
+  email          String         @unique @db.VarChar(150)
+  password       String         @db.VarChar(255)
+  rol            RolUsuario     @default(APRENDIZ)
+  sedeId         Int?           @map("sede_id")
+  sede           Sede?          @relation(fields: [sedeId], references: [id], onDelete: SetNull)
+  asistencias    Asistencia[]
+  refreshTokens  RefreshToken[]
+  creadoEn       DateTime       @default(now()) @map("creado_en")
+  actualizadoEn  DateTime       @updatedAt @map("actualizado_en")
+
+  @@map("usuario")
+}
+
+model Sede {
+  id               Int          @id @default(autoincrement())
+  codigo           String       @unique @db.VarChar(100)
+  nombre           String       @db.VarChar(150)
+  latitud          Decimal      @db.Decimal(10, 8)
+  longitud         Decimal      @db.Decimal(11, 8)
+  radioMetros      Int          @default(500) @map("radio_metros")
+  toleranciaMetros Int          @default(30) @map("tolerancia_metros")
+  horaInicio       String       @default("06:00") @db.VarChar(5) @map("hora_inicio")
+  horaFin          String       @default("22:00") @db.VarChar(5) @map("hora_fin")
+  usuarios         Usuario[]
+  asistencias      Asistencia[]
+  creadoEn         DateTime     @default(now()) @map("creado_en")
+
+  @@map("sede")
+}
+
+model Asistencia {
+  id               String            @id @default(uuid()) @db.Uuid
+  usuarioId        Int               @map("usuario_id")
+  usuario          Usuario           @relation(fields: [usuarioId], references: [id], onDelete: Cascade)
+  sedeId           Int               @map("sede_id")
+  sede             Sede              @relation(fields: [sedeId], references: [id], onDelete: Restrict)
+  tipo             TipoAsistencia
+  latitud          Decimal           @db.Decimal(10, 8)
+  longitud         Decimal           @db.Decimal(11, 8)
+  precisionM       Decimal?          @db.Decimal(10, 2) @map("precision_m")
+  distanciaM       Decimal           @db.Decimal(10, 2) @map("distancia_m")
+  dentroPerimetro  Boolean           @map("dentro_perimetro")
+  dentroHorario    Boolean           @map("dentro_horario")
+  estado           EstadoAsistencia  @default(PENDIENTE)
+  motivoRechazo    String?           @db.VarChar(255) @map("motivo_rechazo")
+  sincronizada     Boolean           @default(false)
+  registradoEn     DateTime          @default(now()) @map("registrado_en")
+
+  @@index([usuarioId, registradoEn])
+  @@map("asistencia")
+}
+
+model RefreshToken {
+  id         String   @id @default(uuid()) @db.Uuid
+  usuarioId  Int      @map("usuario_id")
+  usuario    Usuario  @relation(fields: [usuarioId], references: [id], onDelete: Cascade)
+  token      String   @unique @db.VarChar(512)
+  expiraEn   DateTime @map("expira_en")
+  revocado   Boolean  @default(false)
+  creadoEn   DateTime @default(now()) @map("creado_en")
+
+  @@index([usuarioId])
+  @@map("refresh_token")
+}
