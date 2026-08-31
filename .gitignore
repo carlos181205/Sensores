@@ -1,8 +1,26 @@
-# Backend
-P1_bitacora_sismica/Backend/node_modules/
-P1_bitacora_sismica/Backend/.env
+# Environment files
+.env
+.env.*
+!.env.example
 
 # Flutter / Dart
+.dart_tool/
+build/
+.packages
+.flutter-plugins
+.flutter-plugins-dependencies
+ephemeral/
+
+# Android / Gradle
+.gradle/
+
+# Node
+node_modules/
+coverage/
+
+# Specific project rules (legacy)
+P1_bitacora_sismica/Backend/node_modules/
+P1_bitacora_sismica/Backend/.env
 P1_bitacora_sismica/Flutter/flutter_application_1/.dart_tool/
 P1_bitacora_sismica/Flutter/flutter_application_1/build/
 P1_bitacora_sismica/Flutter/flutter_application_1/.packages
