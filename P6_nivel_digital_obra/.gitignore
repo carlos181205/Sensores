@@ -1,0 +1,8 @@
+build/
+.dart_tool/
+node_modules/
+.env
+*.log
+.DS_Store
+api/almacen/fotos/
+api/almacen/reportes/
